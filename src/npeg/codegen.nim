@@ -384,7 +384,7 @@ proc genCode*(program: Program, sType, uType, uId: NimNode): NimNode =
 
   result = quote:
 
-    proc fn_init(): MatchState[`sType`] {.gensym.} =
+    proc fn_init(): MatchState[`sType`] {. gensym, gcsafe .} =
       result = MatchState[`sType`](
         retStack: initStack[RetFrame]("return", 8, npegRetStackSize),
         capStack: initStack[CapFrame[`sType`]]("capture", 8),
@@ -394,7 +394,7 @@ proc genCode*(program: Program, sType, uType, uId: NimNode): NimNode =
       push(result.precStack, 0)
 
 
-    proc fn_run(`ms`: var MatchState, `s`: openArray[`sType`], `uId`: var `uType`): MatchResult {.gensym.} =
+    proc fn_run(`ms`: var MatchState, `s`: openArray[`sType`], `uId`: var `uType`): MatchResult {. gensym, gcsafe .} =
 
       # Create local instances of performance-critical MatchState vars, this
       # saves a dereference on each access
